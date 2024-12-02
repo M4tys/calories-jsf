@@ -1,0 +1,25 @@
+.centered-panel {
+	width: 50%; /* Szerokość panelu */
+	margin: 0 auto; /* Wyśrodkowanie w poziomie */
+	padding: 20px; /* Dodanie odstępu wewnętrznego */
+	background-color: #fff; /* Tło panelu */
+	border: 1px solid #ccc; /* Obramowanie */
+	border-radius: 10px; /* Zaokrąglone rogi */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
+}
+
+.product-edit-body {
+	display: flex;
+	justify-content: center; /* Wyśrodkowanie poziome */
+	align-items: center; /* Wyśrodkowanie pionowe */
+	min-height: 100vh; /* Wysokość okna przeglądarki */
+	margin: 0;
+	background-color: #eee; /* Kolor tła strony */
+}
+
+.product-list-body {
+	margin-left: 2em; /* Wcięcie z lewej */
+	margin-right: 2em; /* Wcięcie z prawej */
+	background-color: #f9f9f9; /* Opcjonalnie tło */
+	padding: 1em; /* Dodanie odstępu wewnętrznego */
+}

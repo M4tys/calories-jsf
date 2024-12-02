@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:viewParam name="p" value="#{productEditGETBB.product.idProduct}"/>
+	<f:event type="preRenderView" listener="#{productEditGETBB.onLoad()}" />
+</f:metadata>
+
+<h:head>
+	<meta charset="utf-8" />
+	<title>Edycja produktu</title>
+	<h:outputStylesheet name="css/style.css" library="template" />
+</h:head>
+
+<h:body styleClass="product-edit-body">
+
+	<p:panel header="Edycja produktu" stleClass="centered-panel">
+
+		<h:form rendered="#{productEditGETBB.product != null}">
+			<h:panelGrid columns="3" cellpadding="5" style="text-align: center;">
+
+				<h:outputLabel for="p-name" value="Nazwa produktu:" />
+				<p:inputText id="p-name"
+					value="#{productEditGETBB.product.productName}" required="true"
+					requiredMessage="Podaj nazwę produktu"
+					validatorMessage="Produkt moze mieć najwyżej 40 znaków">
+					<f:validateLength maximum="40" />
+				</p:inputText>
+				<p:message for="p-name" display="icon" />
+
+				<h:outputLabel for="p-carbohydrates" value="Węglowodany:" />
+				<p:inputText id="p-carbohydrates"
+					value="#{productEditGETBB.product.carbohydrates}" required="true"
+					requiredMessage="podaj węglowodany">
+				</p:inputText>
+				<p:message for="p-carbohydrates" display="icon" />
+
+				<h:outputLabel for="p-proteins" value="Białko:" />
+				<p:inputText id="p-proteins"
+					value="#{productEditGETBB.product.proteins}" required="true"
+					requiredMessage="podaj białko">
+				</p:inputText>
+				<p:message for="p-proteins" display="icon" />
+
+				<h:outputLabel for="p-fats" value="Tłuszcze:" />
+				<p:inputText id="p-fats" value="#{productEditGETBB.product.fats}"
+					required="true" requiredMessage="podaj tłuszcze">
+				</p:inputText>
+				<p:message for="p-fats" display="icon" />
+			</h:panelGrid>
+
+			<p:messages id="msgs" />
+
+			<h:panelGroup layout="block"
+				style="text-align: center; margin-top: 20px;">
+				<p:commandButton value="Zapisz" action="#{productEditGETBB.saveData()}"
+					style="margin-right: 1em;" update="@form" />
+				<p:button value="Anuluj" outcome="productList" />
+			</h:panelGroup>
+		</h:form>
+
+	</p:panel>
+
+</h:body>
+
+</html>
