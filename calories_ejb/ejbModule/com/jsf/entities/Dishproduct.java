@@ -10,21 +10,16 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name="dishproducts")
-@IdClass(DishproductPK.class)
 @NamedQuery(name="Dishproduct.findAll", query="SELECT d FROM Dishproduct d")
 public class Dishproduct implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private float quantity;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer idDishproduct;
 
-    @Id
-    @Column(name = "idDish")
-    private Integer idDish;
+	private double quantity;
 
-    @Id
-    @Column(name = "idProduct")
-    private Integer idProduct;
-	
 	//bi-directional many-to-one association to Dish
 	@ManyToOne
 	@JoinColumn(name="idDish")
@@ -38,11 +33,19 @@ public class Dishproduct implements Serializable {
 	public Dishproduct() {
 	}
 
-	public float getQuantity() {
+	public Integer getIdDishproduct() {
+		return this.idDishproduct;
+	}
+
+	public void setIdDishproduct(Integer idDishproduct) {
+		this.idDishproduct = idDishproduct;
+	}
+
+	public double getQuantity() {
 		return this.quantity;
 	}
 
-	public void setQuantity(float quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 

@@ -35,7 +35,7 @@ public class UserDAO {
 	public List<User> getFullList() {
 		List<User> list = null;
 
-		Query query = em.createQuery("select u from User u JOIN FETCH u.user");
+		Query query = em.createQuery("select u from User u");
 
 		try {
 			list = query.getResultList();
@@ -53,7 +53,7 @@ public class UserDAO {
 		String select = "select u ";
 		String from = "from User u ";
 		String where = "";
-		String orderby = "order by p.login asc, p.login";
+		String orderby = "order by u.login asc, u.login";
 
 		// search for surname
 		String login = (String) searchParams.get("login");

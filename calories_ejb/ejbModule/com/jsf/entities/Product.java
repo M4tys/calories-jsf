@@ -18,15 +18,15 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer idProduct;
 
-	private float calories;
+	private double calories;
 
-	private float carbohydrates;
+	private double carbohydrates;
 
-	private float fats;
+	private double fats;
 
 	private String productName;
 
-	private float proteins;
+	private double proteins;
 
 	//bi-directional many-to-one association to Dishproduct
 	@OneToMany(mappedBy="product")
@@ -43,27 +43,27 @@ public class Product implements Serializable {
 		this.idProduct = idProduct;
 	}
 
-	public float getCalories() {
+	public double getCalories() {
 		return this.calories;
 	}
 
-	public void setCalories(float calories) {
+	public void setCalories(double calories) {
 		this.calories = calories;
 	}
 
-	public float getCarbohydrates() {
+	public double getCarbohydrates() {
 		return this.carbohydrates;
 	}
 
-	public void setCarbohydrates(float carbohydrates) {
+	public void setCarbohydrates(double carbohydrates) {
 		this.carbohydrates = carbohydrates;
 	}
 
-	public float getFats() {
+	public double getFats() {
 		return this.fats;
 	}
 
-	public void setFats(float fats) {
+	public void setFats(double fats) {
 		this.fats = fats;
 	}
 
@@ -75,11 +75,11 @@ public class Product implements Serializable {
 		this.productName = productName;
 	}
 
-	public float getProteins() {
+	public double getProteins() {
 		return this.proteins;
 	}
 
-	public void setProteins(float proteins) {
+	public void setProteins(double proteins) {
 		this.proteins = proteins;
 	}
 

@@ -17,7 +17,7 @@ import com.jsf.entities.User;
 @Named
 @RequestScoped
 public class UserListBB {
-//	private static final String PAGE_PERSON_EDIT = "personEdit?faces-redirect=true";
+	private static final String PAGE_USER_EDIT = "userEdit?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
 	private String login;
@@ -59,32 +59,15 @@ public class UserListBB {
 		return list;
 	}
 
-//	public String newUser(){
-//		User user = new User();
-//		
-//		//1. Pass object through session
-//		//HttpSession session = (HttpSession) extcontext.getSession(true);
-//		//session.setAttribute("person", person);
-//		
-//		//2. Pass object through flash	
-//		flash.put("user", user);
-//		
-//		return PAGE_PERSON_EDIT;
-//	}
-
-//	public String editPerson(User user){
-//		//1. Pass object through session
-//		//HttpSession session = (HttpSession) extcontext.getSession(true);
-//		//session.setAttribute("person", person);
-//		
-//		//2. Pass object through flash 
-//		flash.put("user", user);
-//		
-//		return PAGE_PERSON_EDIT;
-//	}
-
-	public String deleteUser(User user){
-		userDAO.delete(user);
-		return PAGE_STAY_AT_THE_SAME;
+	public String editUser(User user){
+		//1. Pass object through session
+		//HttpSession session = (HttpSession) extcontext.getSession(true);
+		//session.setAttribute("person", person);
+		
+		//2. Pass object through flash 
+		flash.put("user", user);
+		
+		return PAGE_USER_EDIT;
 	}
+
 }

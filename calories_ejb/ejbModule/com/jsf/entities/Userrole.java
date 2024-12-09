@@ -11,18 +11,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name="userroles")
-@IdClass(UserrolePK.class)
 @NamedQuery(name="Userrole.findAll", query="SELECT u FROM Userrole u")
 public class Userrole implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-    @Id
-    @Column(name = "idUser")
-    private Integer idUser;
 
-    @Id
-    @Column(name = "idRole")
-    private Integer idRole;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer idUserrole;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date assignDate;
@@ -41,6 +36,14 @@ public class Userrole implements Serializable {
 	private User user;
 
 	public Userrole() {
+	}
+
+	public Integer getIdUserrole() {
+		return this.idUserrole;
+	}
+
+	public void setIdUserrole(Integer idUserrole) {
+		this.idUserrole = idUserrole;
 	}
 
 	public Date getAssignDate() {

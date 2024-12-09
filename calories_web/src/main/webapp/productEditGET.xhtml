@@ -34,23 +34,29 @@
 				<p:message for="p-name" display="icon" />
 
 				<h:outputLabel for="p-carbohydrates" value="Węglowodany:" />
-				<p:inputText id="p-carbohydrates"
+				<p:inputNumber id="p-carbohydrates"
 					value="#{productEditGETBB.product.carbohydrates}" required="true"
-					requiredMessage="podaj węglowodany">
-				</p:inputText>
+					requiredMessage="Podaj węglowodany"
+					validatorMessage="Wartość musi być liczbą dodatnią">
+					<f:validateDoubleRange minimum="0.0" />
+				</p:inputNumber>
 				<p:message for="p-carbohydrates" display="icon" />
 
 				<h:outputLabel for="p-proteins" value="Białko:" />
-				<p:inputText id="p-proteins"
+				<p:inputNumber id="p-proteins"
 					value="#{productEditGETBB.product.proteins}" required="true"
-					requiredMessage="podaj białko">
-				</p:inputText>
+					requiredMessage="Podaj białko"
+					validatorMessage="Wartość musi być liczbą dodatnią">
+					<f:validateDoubleRange minimum="0.0" />
+				</p:inputNumber>
 				<p:message for="p-proteins" display="icon" />
 
 				<h:outputLabel for="p-fats" value="Tłuszcze:" />
-				<p:inputText id="p-fats" value="#{productEditGETBB.product.fats}"
-					required="true" requiredMessage="podaj tłuszcze">
-				</p:inputText>
+				<p:inputNumber id="p-fats" value="#{productEditGETBB.product.fats}"
+					required="true" requiredMessage="Podaj tłuszcze"
+					validatorMessage="Wartość musi być liczbą dodatnią">
+					<f:validateDoubleRange minimum="0.0" />
+				</p:inputNumber>
 				<p:message for="p-fats" display="icon" />
 			</h:panelGrid>
 

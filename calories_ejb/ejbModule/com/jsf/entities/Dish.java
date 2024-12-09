@@ -20,13 +20,13 @@ public class Dish implements Serializable {
 
 	private String dishName;
 
-	private float totalCalories;
+	private double totalCalories;
 
-	private float totalCarbohydrates;
+	private double totalCarbohydrates;
 
-	private float totalFats;
+	private double totalFats;
 
-	private float totalProteins;
+	private double totalProteins;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -44,7 +44,7 @@ public class Dish implements Serializable {
 		return this.idDish;
 	}
 
-	public void setIdDish(int idDish) {
+	public void setIdDish(Integer idDish) {
 		this.idDish = idDish;
 	}
 
@@ -56,35 +56,35 @@ public class Dish implements Serializable {
 		this.dishName = dishName;
 	}
 
-	public float getTotalCalories() {
+	public double getTotalCalories() {
 		return this.totalCalories;
 	}
 
-	public void setTotalCalories(float totalCalories) {
+	public void setTotalCalories(double totalCalories) {
 		this.totalCalories = totalCalories;
 	}
 
-	public float getTotalCarbohydrates() {
+	public double getTotalCarbohydrates() {
 		return this.totalCarbohydrates;
 	}
 
-	public void setTotalCarbohydrates(float totalCarbohydrates) {
+	public void setTotalCarbohydrates(double totalCarbohydrates) {
 		this.totalCarbohydrates = totalCarbohydrates;
 	}
 
-	public float getTotalFats() {
+	public double getTotalFats() {
 		return this.totalFats;
 	}
 
-	public void setTotalFats(float totalFats) {
+	public void setTotalFats(double totalFats) {
 		this.totalFats = totalFats;
 	}
 
-	public float getTotalProteins() {
+	public double getTotalProteins() {
 		return this.totalProteins;
 	}
 
-	public void setTotalProteins(float totalProteins) {
+	public void setTotalProteins(double totalProteins) {
 		this.totalProteins = totalProteins;
 	}
 

@@ -88,5 +88,18 @@ public class ProductDAO {
 
 		return list;
 	}
+	
+    public boolean existsByName(String productName) {
+        try {
+            Long count = em.createQuery(
+                    "SELECT COUNT(p) FROM Product p WHERE p.productName = :name", Long.class)
+                    .setParameter("name", productName)
+                    .getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

@@ -37,7 +37,7 @@ public class Role implements Serializable {
 		return this.idRole;
 	}
 
-	public void setIdRole(int idRole) {
+	public void setIdRole(Integer idRole) {
 		this.idRole = idRole;
 	}
 

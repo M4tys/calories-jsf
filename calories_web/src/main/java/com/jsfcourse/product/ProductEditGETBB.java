@@ -61,7 +61,22 @@ public class ProductEditGETBB implements Serializable {
 		}
 
 		try {
-			float Calories = (product.getProteins() * 4) + (product.getCarbohydrates() * 4) + (product.getFats() * 4);
+			boolean isDuplicate = productDAO.existsByName(product.getProductName()) 
+                    && (product.getIdProduct() == null || !product.getIdProduct().equals(loaded.getIdProduct()));
+			
+			if (isDuplicate) {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Produkt o tej nazwie już istnieje", null));
+	            return PAGE_STAY_AT_THE_SAME;
+	        }
+			
+	        if (product.getProteins() <= 0 && product.getCarbohydrates() <= 0 && product.getFats() <= 0) {
+	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie można dodać produktu, który ma 0 składników odżywczych (białka, węglowodany, tłuszcze).", null));
+	            return PAGE_STAY_AT_THE_SAME;
+	        }
+			
+			double Calories = (product.getProteins() * 4) + (product.getCarbohydrates() * 4) + (product.getFats() * 4);
+
+			Calories = Math.round(Calories * 100.0) / 100.0;
 			product.setCalories(Calories);
 
 			if (product.getIdProduct() == null) {
