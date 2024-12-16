@@ -1,20 +1,31 @@
+/* Panel wyśrodkowany */
 .centered-panel {
-	width: 50%; /* Szerokość panelu */
-	margin: 0 auto; /* Wyśrodkowanie w poziomie */
-	padding: 20px; /* Dodanie odstępu wewnętrznego */
-	background-color: #fff; /* Tło panelu */
-	border: 1px solid #ccc; /* Obramowanie */
-	border-radius: 10px; /* Zaokrąglone rogi */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
+    max-width: 50%; /* Szerokość panelu (do 50% ekranu) */
+    margin: 0 auto; /* Wyśrodkowanie poziome */
+    padding: 20px; /* Dodanie odstępu wewnętrznego */
+    background-color: #fff; /* Tło panelu */
+    border: 1px solid #ccc; /* Obramowanie */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
 }
 
+/* Layout strony z edytorem */
 .product-edit-body {
-	display: flex;
-	justify-content: center; /* Wyśrodkowanie poziome */
-	align-items: center; /* Wyśrodkowanie pionowe */
-	min-height: 100vh; /* Wysokość okna przeglądarki */
-	margin: 0;
-	background-color: #eee; /* Kolor tła strony */
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie poziome */
+    align-items: center; /* Wyśrodkowanie pionowe */
+    min-height: 100vh; /* Wysokość okna przeglądarki */
+    margin: 0;
+    background-color: #eee; /* Kolor tła */
+    overflow: hidden; /* Usuwanie nadmiarowych elementów */
+}
+
+/* Dla małych ekranów - responsywność */
+@media (max-width: 600px) {
+    .centered-panel {
+        max-width: 90%; /* Zmniejszenie szerokości dla małych ekranów */
+        padding: 15px; /* Mniejsze odstępy wewnętrzne */
+    }
 }
 
 .product-list-body {
@@ -23,3 +34,61 @@
 	background-color: #f9f9f9; /* Opcjonalnie tło */
 	padding: 1em; /* Dodanie odstępu wewnętrznego */
 }
+
+.user-list-body {
+	margin-left: 2em; /* Wcięcie z lewej */
+	margin-right: 2em; /* Wcięcie z prawej */
+	background-color: #f9f9f9; /* Opcjonalnie tło */
+	padding: 1em; /* Dodanie odstępu wewnętrznego */
+}
+
+/* Ogólne ustawienia body */
+.main-body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Czcionka ogólna */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Cała wysokość okna */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ustawienie wrappera, aby objął cały widok */
+#wrapper {
+    flex-grow: 1; /* Zajmuj całą dostępną wysokość */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ustawienie content - główny kontener */
+#content {
+    flex-grow: 1; /* Zajmuj całą dostępną przestrzeń między nagłówkiem a stopką */
+    padding: 20px;
+}
+
+/* Stopka */
+.footer {
+    background-color: #607d8b; /* Kolor tła podobny do secondary button */
+    color: white; /* Kolor tekstu */
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsywność - dla małych ekranów */
+@media (max-width: 600px) {
+    .footer {
+        font-size: 12px;
+    }
+}
+
+/* Ustawienie elementów na środku */
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

@@ -51,7 +51,7 @@ public class UserDAO {
 
 		// 1. Build query string with parameters
 		String select = "select u ";
-		String from = "from User u ";
+		String from = "FROM User u ";
 		String where = "";
 		String orderby = "order by u.login asc, u.login";
 
@@ -87,5 +87,6 @@ public class UserDAO {
 
 		return list;
 	}
+
 
 }

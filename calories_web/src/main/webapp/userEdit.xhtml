@@ -5,56 +5,47 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+<ui:composition template="/templates/main-template.xhtml">
 
 <f:metadata>
 	<f:viewParam name="u" value="#{userEditBB.user.idUser}" />
 	<f:event type="preRenderView" listener="#{userEditBB.onLoad()}" />
 </f:metadata>
 
-<h:head>
-	<meta charset="utf-8" />
-	<title>Edycja uzytkownika</title>
-	<h:outputStylesheet name="css/style.css" library="template" />
-</h:head>
+<ui:define name="title">Edycja uzytkownika</ui:define>
+<ui:define name="content">
+<h:body class="product-edit-body">
+    <p:panel header="Edycja użytkownika" styleClass="centered-panel">
+        <h:form rendered="#{userEditBB.user != null}">
+            <h:panelGrid columns="3" cellpadding="5" style="width: 100%; text-align: center;">
+                <h:outputLabel for="u-login" value="Login:" />
+                <p:inputText id="u-login" value="#{userEditBB.user.login}"
+                    required="true" requiredMessage="Podaj login"
+                    validatorMessage="Login może mieć najwyżej 40 znaków">
+                    <f:validateLength maximum="40" />
+                </p:inputText>
+                <p:message for="u-login" display="icon" />
 
-<h:body styleClass="product-edit-body">
+                <h:outputLabel for="u-name" value="Nazwa:" />
+                <p:inputText id="u-name" value="#{userEditBB.user.userName}"
+                    required="true" requiredMessage="Podaj nazwę"
+                    validatorMessage="Nazwa może mieć najwyżej 40 znaków">
+                    <f:validateLength maximum="40" />
+                </p:inputText>
+                <p:message for="u-name" display="icon" />
+            </h:panelGrid>
 
-	<p:panel header="Edycja uzytkownika" stleClass="centered-panel">
+            <p:messages id="msgs" />
 
-		<h:form rendered="#{userEditBB.user != null}">
-			<h:panelGrid columns="3" cellpadding="5" style="text-align: center;">
-
-				<h:outputLabel for="u-login" value="Login:" />
-				<p:inputText id="u-login" value="#{userEditBB.user.login}"
-					required="true" requiredMessage="Podaj login"
-					validatorMessage="Login moze mieć najwyżej 40 znaków">
-					<f:validateLength maximum="40" />
-				</p:inputText>
-				<p:message for="u-login" display="icon" />
-
-				<h:outputLabel for="u-name" value="Nazwa:" />
-				<p:inputText id="u-name" value="#{userEditBB.user.userName}"
-					required="true" requiredMessage="Podaj nazwe"
-					validatorMessage="Nazwa moze mieć najwyżej 40 znaków">
-					<f:validateLength maximum="40" />
-				</p:inputText>
-				<p:message for="u-login" display="icon" />
-
-
-			</h:panelGrid>
-
-			<p:messages id="msgs" />
-
-			<h:panelGroup layout="block"
-				style="text-align: center; margin-top: 20px;">
-				<p:commandButton value="Zapisz" action="#{userEditBB.saveData()}"
-					style="margin-right: 1em;" update="@form" />
-				<p:button value="Anuluj" outcome="userList" />
-			</h:panelGroup>
-		</h:form>
-
-	</p:panel>
-
+            <h:panelGroup layout="block" style="text-align: center; margin-top: 20px;">
+                <p:commandButton value="Zapisz" action="#{userEditBB.saveData()}"
+                    style="margin-right: 10px;" update="@form" />
+                <p:button value="Anuluj" outcome="userList" />
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
 </h:body>
-
+</ui:define>
+</ui:composition>
 </html>

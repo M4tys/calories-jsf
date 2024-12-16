@@ -5,20 +5,19 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+<ui:composition template="/templates/main-template.xhtml">
+
+<ui:define name="title">Edycja produktu</ui:define>
+<ui:define name="content">
 
 <f:metadata>
 	<f:viewAction action="#{productEditBB.onLoad()}" />
 </f:metadata>
 
-<h:head>
-	<meta charset="utf-8" />
-	<title>Edycja produktu</title>
-	<h:outputStylesheet name="css/style.css" library="template" />
-</h:head>
-
 <h:body styleClass="product-edit-body">
 
-	<p:panel header="Edycja produktu" stleClass="centered-panel">
+	<p:panel header="Edycja produktu" styleClass="centered-panel">
 
 		<h:form rendered="#{productEditBB.product != null}">
 			<h:panelGrid columns="3" cellpadding="5" style="text-align: center;">
@@ -72,5 +71,6 @@
 	</p:panel>
 
 </h:body>
-
+</ui:define>
+</ui:composition>
 </html>
