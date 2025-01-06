@@ -16,12 +16,12 @@
 	<f:event type="preRenderView" listener="#{productEditGETBB.onLoad()}" />
 </f:metadata>
 
-<h:body styleClass="product-edit-body">
+<h:body styleClass="edit-body">
 
 	<p:panel header="Edycja produktu" styleClass="centered-panel">
 
 		<h:form rendered="#{productEditGETBB.product != null}">
-			<h:panelGrid columns="3" cellpadding="5" style="text-align: center;">
+			<h:panelGrid columns="3" cellpadding="5" >
 
 				<h:outputLabel for="p-name" value="Nazwa produktu:" />
 				<p:inputText id="p-name"

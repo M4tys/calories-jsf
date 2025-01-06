@@ -1,6 +1,6 @@
 /* Panel wyśrodkowany */
 .centered-panel {
-    max-width: 50%; /* Szerokość panelu (do 50% ekranu) */
+    max-width: 40%; /* Szerokość panelu (do 50% ekranu) */
     margin: 0 auto; /* Wyśrodkowanie poziome */
     padding: 20px; /* Dodanie odstępu wewnętrznego */
     background-color: #fff; /* Tło panelu */
@@ -9,8 +9,18 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
 }
 
+.login-panel {
+    max-width: 40%; /* Szerokość panelu (do 50% ekranu) */
+    margin: -150px auto 0 auto; /* Wyśrodkowanie poziome */
+    padding: 20px; /* Dodanie odstępu wewnętrznego */
+    background-color: #fff; /* Tło panelu */
+    border: 1px solid #ccc; /* Obramowanie */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
+}
+
 /* Layout strony z edytorem */
-.product-edit-body {
+.edit-body {
     display: flex;
     justify-content: center; /* Wyśrodkowanie poziome */
     align-items: center; /* Wyśrodkowanie pionowe */

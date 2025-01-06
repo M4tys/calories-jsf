@@ -15,10 +15,10 @@
 
 <ui:define name="title">Edycja uzytkownika</ui:define>
 <ui:define name="content">
-<h:body class="product-edit-body">
+<h:body class="edit-body">
     <p:panel header="Edycja użytkownika" styleClass="centered-panel">
         <h:form rendered="#{userEditBB.user != null}">
-            <h:panelGrid columns="3" cellpadding="5" style="width: 100%; text-align: center;">
+            <h:panelGrid columns="3" cellpadding="5">
                 <h:outputLabel for="u-login" value="Login:" />
                 <p:inputText id="u-login" value="#{userEditBB.user.login}"
                     required="true" requiredMessage="Podaj login"

@@ -1,5 +1,6 @@
 package com.jsf.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class UserDAO {
 
 		return list;
 	}
-	
+
 	public List<User> getList(Map<String, Object> searchParams) {
 		List<User> list = null;
 
@@ -65,18 +66,18 @@ public class UserDAO {
 			}
 			where += "u.login like :login ";
 		}
-		
-		// ... other parameters ... 
+
+		// ... other parameters ...
 
 		// 2. Create query object
 		Query query = em.createQuery(select + from + where + orderby);
 
 		// 3. Set configured parameters
 		if (login != null) {
-			query.setParameter("login", login+"%");
+			query.setParameter("login", login + "%");
 		}
 
-		// ... other parameters ... 
+		// ... other parameters ...
 
 		// 4. Execute query and retrieve list of Person objects
 		try {
@@ -88,5 +89,42 @@ public class UserDAO {
 		return list;
 	}
 
+	public User getUserFromDatabase(String login, String pass) {
+
+		User u = null;
+
+		try {
+			Query query = em.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :password");
+			query.setParameter("login", login);
+			query.setParameter("password", pass);
+			u = (User) query.getSingleResult();
+		} catch (jakarta.persistence.NoResultException e) {
+			e.printStackTrace();
+		}
+
+		return u;
+	}
+
+	// simulate retrieving roles of a User from DB
+	public List<String> getUserRolesFromDatabase(User user) {
+
+		ArrayList<String> roles = new ArrayList<String>();
+
+		try {
+	        Query query = em.createQuery(
+	                "SELECT r.roleName " +
+	                "FROM Role r " +
+	                "JOIN r.userroles ur " +
+	                "WHERE ur.user = :user AND ur.removeDate IS NULL"
+	            );
+	        query.setParameter("user", user);
+	        
+	        roles.addAll(query.getResultList());
+		} catch (jakarta.persistence.NoResultException e) {
+			e.printStackTrace();
+		}
+
+		return roles;
+	}
 
 }

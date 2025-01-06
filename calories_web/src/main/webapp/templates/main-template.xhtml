@@ -23,18 +23,27 @@
 						<p:toolbarGroup>
 							<p:menuButton value="Menu" styleClass="ui-button-secondary"
 								buttonStyle="border-radius: 0 1rem" iconPos="right">
-								<p:menuitem value="Lista uzytkowników" outcome="userList"
+								<p:menuitem value="Lista uzytkowników"
+									action="/pages/admin/userList?faces-redirect=true"
+									update="messages" icon="pi pi-align-left"
+									rendered="#{remoteClient.roles.contains('admin')}" />
+								<p:menuitem value="Lista produktów"
+									action="/pages/dietician/productList?faces-redirect=true"
 									update="messages" icon="pi pi-align-left" />
-								<p:menuitem value="Lista produktów" outcome="productList"
-									update="messages" icon="pi pi-align-left" />
+
+								<p:menuitem value="Dania"
+									
+									update="messages" icon="pi pi-align-left"
+									rendered="#{remoteClient.roles.contains('user') or remoteClient.roles.contains('dietician')}" />
 							</p:menuButton>
 						</p:toolbarGroup>
 
 						<p:toolbarGroup align="right">
-							<p:commandButton type="button" value="Zaloguj się" style="margin-right: 10px;"
-								styleClass="rounded-button ui-button-secondary" />
-							<p:commandButton type="button" value="Zarejestruj się"
-								styleClass="rounded-button ui-button-secondary" />
+							<h:outputText style="margin-right:10px"
+								value="Zalogowany: #{remoteClient.details.userName}" />
+							<h:outputText value="Rola: #{remoteClient.roles}" />
+							<p:commandButton styleClass="rounded-button ui-button-secondary"
+								value="Wyloguj" action="#{loginBB.doLogout()}" />
 						</p:toolbarGroup>
 					</p:toolbar>
 				</h:form>
