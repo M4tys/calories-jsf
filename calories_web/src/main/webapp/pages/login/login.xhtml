@@ -34,7 +34,7 @@
 				style="text-align: center; margin-top: 20px;">
 				<p:commandButton value="Zaloguj" action="#{loginBB.doLogin()}"
 					style="margin-right: 10px;" update="@form" />
-				<p:button value="Zarejestruj się" action="/pages/login/registerUser?faces-redirect=true" />
+				<p:commandButton value="Zarejestruj się" action="/pages/register/registerUser?faces-redirect=true"  immediate="true"/>
 			</h:panelGroup>
 		</h:form>
 	</p:panel>

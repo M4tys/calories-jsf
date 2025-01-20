@@ -55,7 +55,7 @@ public class RegisterUserBB {
             userRoleDAO.create(userrole);          
             // Zapis roli do bazy
 
-            return "userList?faces-redirect=true"; // Przekierowanie po sukcesie
+            return "/pages/login/login?faces-redirect=true"; // Przekierowanie po sukcesie
         } catch (Exception e) {
             e.printStackTrace();
             return null;

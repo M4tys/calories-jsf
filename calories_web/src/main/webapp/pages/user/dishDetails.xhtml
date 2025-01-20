@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	
+<f:metadata>
+	<f:viewAction action="#{dishDetailsBB.onLoad()}" />
+</f:metadata>
+
+<ui:composition template="/templates/main-template.xhtml">
+
+	<ui:define name="title">Szczegóły dania</ui:define>
+	<ui:define name="content">
+
+		<h:body styleClass="dish-details-body">
+
+			<p:panel header="Szczegóły dania" styleClass="centered-panel">
+				<h:form rendered="#{dishDetailsBB.dish != null}">
+					<h:panelGrid columns="2" cellpadding="5"
+						style="text-align: center;">
+						<h:outputLabel for="dish-name" value="Nazwa dania:" />
+						<h:outputText value="#{dishDetailsBB.dish.dishName}" />
+
+						<h:outputLabel for="dish-calories" value="Całkowite kalorie:" />
+						<h:outputText value="#{dishDetailsBB.dish.totalCalories}" />
+
+						<h:outputLabel for="dish-proteins" value="Białka:" />
+						<h:outputText value="#{dishDetailsBB.dish.totalProteins}" />
+
+						<h:outputLabel for="dish-carbohydrates" value="Węglowodany:" />
+						<h:outputText value="#{dishDetailsBB.dish.totalCarbohydrates}" />
+
+						<h:outputLabel for="dish-fats" value="Tłuszcze:" />
+						<h:outputText value="#{dishDetailsBB.dish.totalFats}" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" cellpadding="5"
+						style="text-align: center;">
+						<h:outputText value="Produkty:" />
+					</h:panelGrid>
+
+					<!-- Lista produktów -->
+					<p:dataTable var="dp" value="#{dishDetailsBB.list}"
+						styleClass="dish-products-table">
+						<p:column headerText="Produkt">
+							<h:outputText value="#{dp.product.productName}" />
+						</p:column>
+						<p:column headerText="Ilość">
+							<h:outputText value="#{dp.quantity}" />
+						</p:column>
+						<p:column>
+							<p:commandButton icon="pi pi-times"
+								class="ui-button-danger ui-button-flat rounded-button"
+								
+								update="@form"
+								onclick="return confirm('Czy na pewno chcesz usunąć ten produkt?');" />
+						</p:column>
+					</p:dataTable>
+					<p:growl id="msgs" />
+
+					<p:button value="Powrót" outcome="dishList"
+						style="margin-top: 10px;" />
+				</h:form>
+			</p:panel>
+
+		</h:body>
+
+	</ui:define>
+</ui:composition>
+</html>

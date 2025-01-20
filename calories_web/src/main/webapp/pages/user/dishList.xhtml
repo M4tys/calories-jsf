@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/templates/main-template.xhtml">
+
+	<ui:define name="title">Lista dań</ui:define>
+	<ui:define name="content">
+		<h:body styleClass="dish-carousel-body">
+			<p:panel header="Dodaj danie" toggleable="true"
+				style="margin-bottom: 1em;">
+				<h:form id="add_dish">
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:outputLabel for="name" value="Nazwa:" />
+						<p:inputText id="name" value="#{dishListBB.dishName}"
+							validatorMessage="Danie musi mieć co najmniej 3 znaki">
+							<f:validateLength minimum="3" />
+						</p:inputText>
+						<p:message for="name" display="icon" />
+					</h:panelGrid>
+					<p:commandButton value="Dodaj danie" icon="pi pi-plus"
+						styleClass="ui-button-success" action="#{dishListBB.addDish()}"
+						update="form add_dish" />
+					<p:messages id="msgs" />
+				</h:form>
+			</p:panel>
+
+			<h:form id="form">
+				<div class="card">
+					<p:carousel value="#{dishListBB.userDishes}" var="d" numVisible="3"
+						numScroll="3">
+						<div class="dish-item">
+							<div class="dish-item-content">
+								<div>
+									<h4 class="mb-1">#{d.dishName}</h4>
+									<h6 class="mt-0 mb-3">
+										<h:outputText value="#{d.totalCalories}">
+										</h:outputText>
+									</h6>
+									<div class="mt-5">
+										<p:commandButton icon="pi pi-search" style="margin-right: 10px;"
+											action="#{dishListBB.showDishDetails(d)}" styleClass="rounded-button mr-2"/>
+										<p:commandButton icon="pi pi-trash"
+											action="#{dishListBB.deleteDish(d)}" update="@form"
+											styleClass="ui-button-danger rounded-button" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</p:carousel>
+				</div>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

@@ -19,7 +19,8 @@ import com.jsf.entities.User;
 public class LoginBB {
 	private static final String PAGE_ADMIN = "/pages/admin/userList?faces-redirect=true";
 	private static final String PAGE_DIETICIAN = "/pages/dietician/productList?faces-redirect=true";
-	private static final String PAGE_LOGIN = "/pages/login?faces-redirect=true";
+	private static final String PAGE_LOGIN = "/pages/login/login?faces-redirect=true";
+	private static final String PAGE_USER = "/pages/user/dishList?faces-redirect=true";
 	private static final String PAGE_STAY_AT_THE_SAME = null;
 
 	private String login;
@@ -81,7 +82,7 @@ public class LoginBB {
 		if(roles.contains("dietician")) {
 			return PAGE_DIETICIAN;
 		} else {
-			return PAGE_LOGIN;
+			return PAGE_USER;
 		}
 	}
 	

@@ -26,7 +26,6 @@ public class ProductDAO {
 
 	public void delete(Product product) {
 	     em.remove(em.merge(product));
-
 	}
 
 	public Product find(Object id) {

@@ -32,7 +32,7 @@
 									update="messages" icon="pi pi-align-left" />
 
 								<p:menuitem value="Dania"
-									
+									action="/pages/user/dishList?faces-redirect=true"
 									update="messages" icon="pi pi-align-left"
 									rendered="#{remoteClient.roles.contains('user') or remoteClient.roles.contains('dietician')}" />
 							</p:menuButton>
