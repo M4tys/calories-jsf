@@ -8,67 +8,69 @@
 
 <ui:composition template="/templates/main-template.xhtml">
 
-<ui:define name="title">Lista produktów</ui:define>
-<ui:define name="content">
-<h:body styleClass="product-list-body">
+	<ui:define name="title">Lista produktów</ui:define>
+	<ui:define name="content">
+		<h:body styleClass="product-list-body">
 
-	<p:panel header="Opcje wyszukiwania" toggleable="true"
-		style="margin-bottom: 1em;">
-		<h:form>
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Nazwa:" />
-				<p:inputText value="#{productListBB.productName}" />
-				<p:commandButton value="Szukaj" update="form" />
-			</h:panelGrid>
-		</h:form>
-	</p:panel>
-	
-	<p:messages />
+			<p:panel header="Opcje wyszukiwania" toggleable="true"
+				style="margin-bottom: 1em;">
+				<h:form>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel value="Nazwa:" />
+						<p:inputText value="#{productListBB.productName}" />
+						<p:commandButton value="Szukaj" update="form" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
 
-	<h:form id="form">
-		<p:commandButton value="Dodaj nowy produkt" icon="pi pi-plus"
-			action="#{productListBB.newProduct()}" style="margin-bottom:1em;" />
+			<p:messages />
 
-		<div class="card">
-			<p:dataTable id="productDT" var="p" value="#{productListBB.list}"
-				showGridlines="true">
-				<p:column headerText="Nazwa">
-					<h:outputText value="#{p.productName}" />
-				</p:column>
+			<h:form id="form">
+				<p:commandButton value="Dodaj nowy produkt" icon="pi pi-plus"
+					action="#{productListBB.newProduct()}" style="margin-bottom:1em;" />
 
-				<p:column headerText="Kalorie">
-					<h:outputText value="#{p.calories}" />
-				</p:column>
+				<div class="card">
+					<p:dataTable id="productDT" var="p"
+						value="#{productListBB.lazyModel}" paginator="true" rows="5"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						lazy="true" showGridlines="true">
+						<p:column headerText="Nazwa">
+							<h:outputText value="#{p.productName}" />
+						</p:column>
 
-				<p:column headerText="Węglowodany">
-					<h:outputText value="#{p.carbohydrates}" />
-				</p:column>
+						<p:column headerText="Kalorie">
+							<h:outputText value="#{p.calories}" />
+						</p:column>
 
-				<p:column headerText="Bałko">
-					<h:outputText value="#{p.proteins}" />
-				</p:column>
+						<p:column headerText="Węglowodany">
+							<h:outputText value="#{p.carbohydrates}" />
+						</p:column>
 
-				<p:column headerText="Tłuszcze">
-					<h:outputText value="#{p.fats}" />
-				</p:column>
+						<p:column headerText="Bałko">
+							<h:outputText value="#{p.proteins}" />
+						</p:column>
 
-				<p:column exportable="false" ariaHeaderText="Actions">
-					<p:button icon="pi pi-pencil" style="margin-right: 10px;"
-						outcome="productEditGET"
-						styleClass="edit-button rounded-button ui-button-flat ui-button-success">
-						<f:param name="p" value="#{p.idProduct}" />
-					</p:button>
-					<p:commandButton
-						class="ui-button-danger ui-button-flat rounded-button"
-						icon="pi pi-times"
-						action="#{productListBB.deleteProduct(p)}" update="@form">
-					</p:commandButton>
-				</p:column>
+						<p:column headerText="Tłuszcze">
+							<h:outputText value="#{p.fats}" />
+						</p:column>
 
-			</p:dataTable>
-		</div>
-	</h:form>
-</h:body>
-</ui:define>
+						<p:column exportable="false" ariaHeaderText="Actions">
+							<p:commandButton icon="pi pi-pencil" style="margin-right: 10px;"
+								action="#{productListBB.editProduct(p)}"
+								styleClass="edit-button rounded-button ui-button-flat ui-button-success"
+								update="@form">
+							</p:commandButton>
+							<p:commandButton
+								class="ui-button-danger ui-button-flat rounded-button"
+								icon="pi pi-times" action="#{productListBB.deleteProduct(p)}"
+								update="@form">
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+			</h:form>
+		</h:body>
+	</ui:define>
 </ui:composition>
 </html>

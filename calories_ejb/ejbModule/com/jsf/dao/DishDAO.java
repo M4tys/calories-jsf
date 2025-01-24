@@ -15,6 +15,22 @@ public class DishDAO {
 	
     @PersistenceContext
     protected EntityManager em;
+    
+	public void insert(Dish dish) {
+		em.persist(dish);
+	}
+    
+	public void delete(Dish dish) {
+	     em.remove(em.merge(dish));
+	}
+	
+	public void update(Dish dish) {
+	    em.merge(dish);
+	}
+	
+	public Dish find(Object id) {
+		return em.find(Dish.class, id);
+	}
 
     public List<Dish> getDishesByUser(User user) {
         List<Dish> dishes = null;
@@ -38,26 +54,10 @@ public class DishDAO {
             query.setParameter("dishName", dishName);
             query.setParameter("user", user);
             Long count = (Long) query.getSingleResult();
-            return count > 0; // Jeśli liczba > 0, danie już istnieje
+            return count > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
-	public void insert(Dish dish) {
-		em.persist(dish);
-	}
-    
-	public void delete(Dish dish) {
-	     em.remove(em.merge(dish));
-	}
-	
-	public void update(Dish dish) {
-	    em.merge(dish);
-	}
-	
-	public Dish find(Object id) {
-		return em.find(Dish.class, id);
-	}
 }

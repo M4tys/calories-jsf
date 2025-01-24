@@ -5,12 +5,13 @@ import java.io.Serializable;
 
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.context.Flash;
+import jakarta.faces.simplesecurity.RemoteClient;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.HttpSession;
 
 import com.jsf.dao.UserDAO;
 import com.jsf.entities.User;
@@ -26,31 +27,31 @@ public class UserEditBB implements Serializable {
 	private User user = new User();
 	private User loaded = null;
 
-	@EJB
+	@Inject
 	UserDAO userDAO;
 
 	@Inject
-	FacesContext context;
+	FacesContext ctx;
+	
+	@Inject
+	private ExternalContext extContext;
+	
+	@Inject
+	Flash flash;
 
 	public User getUser() {
 		return user;
 	}
 
 	public void onLoad() throws IOException {
-		if (!context.isPostback()) {
-			if (!context.isValidationFailed() && user.getIdUser() != null) {
-				loaded = userDAO.find(user.getIdUser());
-			}
-			if (loaded != null) {
-				user = loaded;
-			} else {
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
-				// if (!context.isPostback()) { // possible redirect
-				// context.getExternalContext().redirect("personList.xhtml");
-				// context.responseComplete();
-				// }
-			}
+		loaded = (User) flash.get("user");
+
+		if (loaded != null) {
+			user = loaded;
+		} else {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
 		}
+
 	}
 
 
@@ -61,6 +62,11 @@ public class UserEditBB implements Serializable {
 		}
 
 		try {
+			RemoteClient<User> client = (RemoteClient<User>) extContext.getSessionMap().get("remoteClient");
+            
+            if (client != null) {
+                user.setUser(client.getDetails());
+            }
 
 			if (user.getIdUser() == null) {
 				// new record
@@ -71,8 +77,7 @@ public class UserEditBB implements Serializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "wystąpił błąd podczas zapisu", null));
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bład podczas zapisu", null));
 			return PAGE_STAY_AT_THE_SAME;
 		}
 

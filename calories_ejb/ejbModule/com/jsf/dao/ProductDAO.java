@@ -28,57 +28,68 @@ public class ProductDAO {
 	     em.remove(em.merge(product));
 	}
 
-	public Product find(Object id) {
+	public Product find(Integer id) {
 		return em.find(Product.class, id);
 	}
+	
+	public List<Product> getPagedList(int offset, int pageSize, Map<String, Object> searchParams) {
+	    List<Product> list = null;
+
+	    String queryString = "SELECT p FROM Product p ";
+	    String where = "";
+	    String orderBy = " ORDER BY p.productName ASC";
+
+	    if (searchParams.containsKey("productName")) {
+	        where += "WHERE p.productName LIKE :productName ";
+	    }
+
+	    Query query = em.createQuery(queryString + where + orderBy);
+	    query.setFirstResult(offset);
+	    query.setMaxResults(pageSize);
+	    
+	    if (searchParams.containsKey("productName")) {
+	        query.setParameter("productName", "%" + searchParams.get("productName") + "%");
+	    }
+
+	    try {
+	        list = query.getResultList();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return list;
+	}
+
+	
+	public int countProducts(Map<String, Object> searchParams) {
+	    String queryString = "SELECT COUNT(p) FROM Product p ";
+	    String where = "";
+
+	    if (searchParams.containsKey("productName")) {
+	        where += "WHERE p.productName LIKE :productName ";
+	    }
+
+	    Query query = em.createQuery(queryString + where);
+
+	    if (searchParams.containsKey("productName")) {
+	        query.setParameter("productName", "%" + searchParams.get("productName") + "%");
+	    }
+
+	    try {
+	        Long count = (Long) query.getSingleResult();
+	        return count.intValue();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return 0;
+	    }
+	}
+
 
 	public List<Product> getFullList() {
 		List<Product> list = null;
 
 		Query query = em.createQuery("select p from Product p");
 
-		try {
-			list = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
-	
-	public List<Product> getList(Map<String, Object> searchParams) {
-		List<Product> list = null;
-
-		// 1. Build query string with parameters
-		String select = "select p ";
-		String from = "from Product p ";
-		String where = "";
-		String orderby = "order by p.productName asc, p.productName";
-
-		// search for surname
-		String productName = (String) searchParams.get("productName");
-		if (productName != null) {
-			if (where.isEmpty()) {
-				where = "where ";
-			} else {
-				where += "and ";
-			}
-			where += "p.productName like :productName ";
-		}
-		
-		// ... other parameters ... 
-
-		// 2. Create query object
-		Query query = em.createQuery(select + from + where + orderby);
-
-		// 3. Set configured parameters
-		if (productName != null) {
-			query.setParameter("productName", productName+"%");
-		}
-
-		// ... other parameters ... 
-
-		// 4. Execute query and retrieve list of Person objects
 		try {
 			list = query.getResultList();
 		} catch (Exception e) {
@@ -100,5 +111,4 @@ public class ProductDAO {
             return false;
         }
     }
-
 }

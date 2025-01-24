@@ -5,7 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-	
+
 <f:metadata>
 	<f:viewAction action="#{dishDetailsBB.onLoad()}" />
 </f:metadata>
@@ -16,58 +16,58 @@
 	<ui:define name="content">
 
 		<h:body styleClass="dish-details-body">
-
-			<p:panel header="Szczegóły dania" styleClass="centered-panel">
-				<h:form rendered="#{dishDetailsBB.dish != null}">
-					<h:panelGrid columns="2" cellpadding="5"
-						style="text-align: center;">
+			<h:form rendered="#{dishDetailsBB.dish != null}">
+				<!-- Panel ze szczegółami dania -->
+				<p:panel header="Szczegóły dania" styleClass="centered-panel">
+					<h:panelGrid columns="2" cellpadding="5" style="text-align: left;">
 						<h:outputLabel for="dish-name" value="Nazwa dania:" />
 						<h:outputText value="#{dishDetailsBB.dish.dishName}" />
 
 						<h:outputLabel for="dish-calories" value="Całkowite kalorie:" />
-						<h:outputText value="#{dishDetailsBB.dish.totalCalories}" />
+						<h:outputText value="#{dishDetailsBB.dish.totalCalories} kcal" />
 
 						<h:outputLabel for="dish-proteins" value="Białka:" />
-						<h:outputText value="#{dishDetailsBB.dish.totalProteins}" />
+						<h:outputText value="#{dishDetailsBB.dish.totalProteins} g" />
 
 						<h:outputLabel for="dish-carbohydrates" value="Węglowodany:" />
-						<h:outputText value="#{dishDetailsBB.dish.totalCarbohydrates}" />
+						<h:outputText value="#{dishDetailsBB.dish.totalCarbohydrates} g" />
 
 						<h:outputLabel for="dish-fats" value="Tłuszcze:" />
-						<h:outputText value="#{dishDetailsBB.dish.totalFats}" />
+						<h:outputText value="#{dishDetailsBB.dish.totalFats} g" />
 					</h:panelGrid>
+				</p:panel>
 
-					<h:panelGrid columns="2" cellpadding="5"
-						style="text-align: center;">
-						<h:outputText value="Produkty:" />
-					</h:panelGrid>
-
-					<!-- Lista produktów -->
+				<!-- Panel z listą produktów -->
+				<p:panel header="Lista produktów" styleClass="centered-panel"
+					style="margin-top: 20px;">
 					<p:dataTable var="dp" value="#{dishDetailsBB.list}"
 						styleClass="dish-products-table">
 						<p:column headerText="Produkt">
 							<h:outputText value="#{dp.product.productName}" />
 						</p:column>
 						<p:column headerText="Ilość">
-							<h:outputText value="#{dp.quantity}" />
+							<h:outputText value="#{dp.quantity} g" />
 						</p:column>
-						<p:column>
+						<p:column headerText="Klaorie (w 100g)">
+							<h:outputText value="#{dp.product.calories} kcal" />
+						</p:column>
+						<p:column headerText="Usuń produkt">
 							<p:commandButton icon="pi pi-times"
 								class="ui-button-danger ui-button-flat rounded-button"
-								
-								update="@form"
-								onclick="return confirm('Czy na pewno chcesz usunąć ten produkt?');" />
+								action="#{dishDetailsBB.removeProduct(dp)}" update="@form"/>
 						</p:column>
 					</p:dataTable>
 					<p:growl id="msgs" />
 
-					<p:button value="Powrót" outcome="dishList"
-						style="margin-top: 10px;" />
-				</h:form>
-			</p:panel>
-
+					<div style="text-align: center; margin-top: 10px;">
+						<p:button value="Powrót" outcome="dishList"
+							icon="pi pi-arrow-left" style="margin-right: 10px;" />
+						<p:commandButton value="Dodaj produkt" icon="pi pi-plus"
+							action="#{dishDetailsBB.addProduct(dishDetailsBB.dish)}" />
+					</div>
+				</p:panel>
+			</h:form>
 		</h:body>
-
 	</ui:define>
 </ui:composition>
 </html>

@@ -52,8 +52,8 @@ public class UserDAO {
 
 		// 1. Build query string with parameters
 		String select = "select u ";
-		String from = "FROM User u ";
-		String where = "";
+		String from = "FROM User u JOIN u.userroles ur JOIN ur.role r ";
+		String where = "WHERE ur.removeDate IS NULL ";
 		String orderby = "order by u.login asc, u.login";
 
 		// search for surname
@@ -98,14 +98,13 @@ public class UserDAO {
 			query.setParameter("login", login);
 			query.setParameter("password", pass);
 			u = (User) query.getSingleResult();
-		} catch (jakarta.persistence.NoResultException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println("Błąd podczas wyszukiwania użytkownika w bazie danych: " + e.getMessage());
 		}
 
 		return u;
 	}
 
-	// simulate retrieving roles of a User from DB
 	public List<String> getUserRolesFromDatabase(User user) {
 
 		ArrayList<String> roles = new ArrayList<String>();
@@ -120,7 +119,7 @@ public class UserDAO {
 	        query.setParameter("user", user);
 	        
 	        roles.addAll(query.getResultList());
-		} catch (jakarta.persistence.NoResultException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

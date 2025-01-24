@@ -10,6 +10,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><ui:insert name="title">...</ui:insert></title>
 	<h:outputStylesheet name="css/style.css" library="template" />
+	<link type="image/x-icon" rel="shortcut icon"
+		href="#{resource['template:img/icon.ico']}" />
 </h:head>
 
 <h:body class="main-body">
@@ -29,19 +31,20 @@
 									rendered="#{remoteClient.roles.contains('admin')}" />
 								<p:menuitem value="Lista produktów"
 									action="/pages/dietician/productList?faces-redirect=true"
-									update="messages" icon="pi pi-align-left" />
-
+									update="messages" icon="pi pi-align-left"
+									rendered="#{remoteClient.roles.contains('dietician')}" />
 								<p:menuitem value="Dania"
 									action="/pages/user/dishList?faces-redirect=true"
 									update="messages" icon="pi pi-align-left"
 									rendered="#{remoteClient.roles.contains('user') or remoteClient.roles.contains('dietician')}" />
 							</p:menuButton>
+							<i class="pi pi-user"
+								style="margin-left: 20px; margin-right: 5px; font-size: 1.2em;"></i>
+							<h:outputText style="margin-left:5px; font-size:1.2em;"
+								value="#{remoteClient.details.userName}" />
 						</p:toolbarGroup>
 
 						<p:toolbarGroup align="right">
-							<h:outputText style="margin-right:10px"
-								value="Zalogowany: #{remoteClient.details.userName}" />
-							<h:outputText value="Rola: #{remoteClient.roles}" />
 							<p:commandButton styleClass="rounded-button ui-button-secondary"
 								value="Wyloguj" action="#{loginBB.doLogout()}" />
 						</p:toolbarGroup>
@@ -58,7 +61,7 @@
 		<ui:insert name="footer">
 			<div id="footer" class="footer">
 				<p:outputPanel styleClass="footer-content">
-					<p:outputLabel value="© 2024 Autor: Bartosz Matysek" />
+					<p:outputLabel value="© 2025 Autor: Bartosz Matysek" />
 				</p:outputPanel>
 			</div>
 		</ui:insert>

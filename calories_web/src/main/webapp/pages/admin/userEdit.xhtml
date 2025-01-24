@@ -9,14 +9,13 @@
 <ui:composition template="/templates/main-template.xhtml">
 
 <f:metadata>
-	<f:viewParam name="u" value="#{userEditBB.user.idUser}" />
-	<f:event type="preRenderView" listener="#{userEditBB.onLoad()}" />
+	<f:viewAction action="#{userEditBB.onLoad()}" />
 </f:metadata>
 
 <ui:define name="title">Edycja uzytkownika</ui:define>
 <ui:define name="content">
 <h:body class="edit-body">
-    <p:panel header="Edycja użytkownika" styleClass="centered-panel">
+    <p:panel header="Edycja użytkownika" styleClass="edit-panel">
         <h:form rendered="#{userEditBB.user != null}">
             <h:panelGrid columns="3" cellpadding="5">
                 <h:outputLabel for="u-login" value="Login:" />

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Rejestracja</title>
+	<h:outputStylesheet name="css/style.css" library="template" />
+</h:head>
+<h:body styleClass="edit-body">
+	<p:panel header="Formularz rejestracji konta"
+		styleClass="register-panel">
+		<h:form id="registerForm">
+			<h:panelGrid columns="3" cellpadding="5" style="width: 100%;">
+
+				<h:outputLabel for="login" value="Login:" />
+				<p:inputText id="login" value="#{registerUserBB.login}"
+					required="true" requiredMessage="Login jest wymagany." />
+				<p:message for="login" display="icon" />
+
+				<h:outputLabel for="userName" value="Nazwa uzytkownika:" />
+				<p:inputText id="userName" value="#{registerUserBB.userName}"
+					required="true" requiredMessage="Nazwa użytkownika jest wymagana." />
+				<p:message for="userName" display="icon" />
+
+				<h:outputLabel for="password" value="Hasło:" />
+				<p:password id="password" value="#{registerUserBB.password}"
+					required="true" requiredMessage="Hasło jest wymagane." />
+				<p:message for="password" display="icon" />
+
+				<h:outputLabel for="confirmPassword" value="Powtórz hasło:" />
+				<p:password id="confirmPassword"
+					value="#{registerUserBB.confirmPassword}" required="true"
+					requiredMessage="Powtórzenie hasła jest wymagane." />
+				<p:message for="confirmPassword" display="icon" />
+
+				<h:outputLabel for="role" value="Rola:" />
+				<p:selectOneMenu id="role" value="#{registerUserBB.role}"
+					required="true" requiredMessage="Wybranie roli jest wymagane.">
+					<f:selectItem itemLabel="Wybierz rolę" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItem itemLabel="Użytkownik" itemValue="USER" />
+					<f:selectItem itemLabel="Dietetyk" itemValue="DIETICIAN" />
+				</p:selectOneMenu>
+				<p:message for="role" display="icon" />
+
+			</h:panelGrid>
+
+			<div style="text-align: center; margin-top: 1em;">
+				<p:commandButton value="Powrót" action="/pages/login/login.xhtml"
+					icon="pi pi-arrow-left" style="margin-right: 1em;"
+					styleClass="ui-button-secondary" immediate="true" />
+				<p:commandButton value="Zarejestruj" icon="pi pi-check"
+					action="#{registerUserBB.register()}" update="@form"
+					style="margin-right: 1em;" styleClass="ui-button-success" />
+				<p:commandButton value="Wyczyść" type="reset" icon="pi pi-refresh"
+					styleClass="ui-button-secondary" />
+			</div>
+
+			<p:growl id="messages" autoUpdate="true" life="6000" />
+		</h:form>
+	</p:panel>
+</h:body>
+
+
+</html>

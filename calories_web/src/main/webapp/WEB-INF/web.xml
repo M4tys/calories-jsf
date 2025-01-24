@@ -16,7 +16,6 @@
       <param-value>
 /jakarta.faces.resource : PUBLIC;
 /pages/login : PUBLIC;
-/pages/register : PUBLIC;
 /pages/admin : admin;
 /pages/dietician : dietician;
 /pages/user : user, dietician;

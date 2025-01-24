@@ -16,17 +16,17 @@
 
 		<h:body styleClass="edit-body">
 
-			<p:panel header="Edycja produktu" styleClass="centered-panel">
+			<p:panel header="Edycja produktu" styleClass="edit-panel">
 
 				<h:form rendered="#{productEditBB.product != null}">
 					<h:panelGrid columns="3" cellpadding="5"
-						style="text-align: center;">
+						style="text-align: left;">
 
 						<h:outputLabel for="p-name" value="Nazwa produktu:" />
 						<p:inputText id="p-name"
 							value="#{productEditBB.product.productName}" required="true"
 							requiredMessage="Podaj nazwę produktu"
-							validatorMessage="Produkt moze mieć najwyżej 40 znaków">
+							validatorMessage="Produkt moze mieć najwyżej 40 znaków" >
 							<f:validateLength maximum="40" />
 						</p:inputText>
 						<p:message for="p-name" display="icon" />

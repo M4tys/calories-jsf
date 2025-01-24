@@ -10,7 +10,6 @@ import jakarta.faces.context.Flash;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.HttpSession;
 
 import com.jsf.dao.ProductDAO;
 import com.jsf.entities.Product;
@@ -30,7 +29,7 @@ public class ProductEditBB implements Serializable {
 	ProductDAO productDAO;
 
 	@Inject
-	FacesContext context;
+	FacesContext ctx;
 
 	@Inject
 	Flash flash;
@@ -38,29 +37,17 @@ public class ProductEditBB implements Serializable {
 	public Product getProduct() {
 		return product;
 	}
-	
-	public void onLoad() throws IOException {
-		// 1. load person passed through session
-		// HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		// loaded = (Person) session.getAttribute("person");
 
-		// 2. load person passed through flash
+	public void onLoad() throws IOException {
 		loaded = (Product) flash.get("product");
 
-		// cleaning: attribute received => delete it from session
 		if (loaded != null) {
 			product = loaded;
-			// session.removeAttribute("person");
 		} else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
-			// if (!context.isPostback()) { //possible redirect
-			// context.getExternalContext().redirect("personList.xhtml");
-			// context.responseComplete();
-			// }
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu", null));
 		}
 
 	}
-
 
 	public String saveData() {
 		// no Person object passed
@@ -69,19 +56,22 @@ public class ProductEditBB implements Serializable {
 		}
 
 		try {
-			boolean isDuplicate = productDAO.existsByName(product.getProductName()) 
-                    && (product.getIdProduct() == null || !product.getIdProduct().equals(loaded.getIdProduct()));
-			
+			boolean isDuplicate = productDAO.existsByName(product.getProductName())
+					&& (product.getIdProduct() == null || !product.getIdProduct().equals(loaded.getIdProduct()));
+
 			if (isDuplicate) {
-	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Produkt o tej nazwie już istnieje", null));
-	            return PAGE_STAY_AT_THE_SAME;
-	        }
-			
-	        if (product.getProteins() <= 0 && product.getCarbohydrates() <= 0 && product.getFats() <= 0) {
-	            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nie można dodać produktu, który ma 0 składników odżywczych (białka, węglowodany, tłuszcze).", null));
-	            return PAGE_STAY_AT_THE_SAME;
-	        }
-			
+				ctx.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Produkt o tej nazwie już istnieje", null));
+				return PAGE_STAY_AT_THE_SAME;
+			}
+
+			if (product.getProteins() <= 0 && product.getCarbohydrates() <= 0 && product.getFats() <= 0) {
+				ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Nie można dodać produktu, który ma 0 składników odżywczych (białka, węglowodany, tłuszcze).",
+						null));
+				return PAGE_STAY_AT_THE_SAME;
+			}
+
 			double Calories = (product.getProteins() * 4) + (product.getCarbohydrates() * 4) + (product.getFats() * 4);
 
 			Calories = Math.round(Calories * 100.0) / 100.0;
@@ -96,7 +86,7 @@ public class ProductEditBB implements Serializable {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			context.addMessage(null,
+			ctx.addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "wystąpił błąd podczas zapisu", null));
 			return PAGE_STAY_AT_THE_SAME;
 		}

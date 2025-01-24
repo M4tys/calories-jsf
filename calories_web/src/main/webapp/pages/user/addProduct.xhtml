@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:viewAction action="#{addProductBB.onLoad()}" />
+</f:metadata>
+
+<ui:composition template="/templates/main-template.xhtml">
+
+	<ui:define name="title">Dodaj produkt do dania</ui:define>
+	<ui:define name="content">
+
+		<p:panel header="#{addProductBB.dish.dishName}"
+			styleClass="add-product-panel">
+			<h:form id="addProductForm">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="product" value="Produkt:" />
+					<p:selectOneMenu id="product" panelStyle="width:25em"
+						value="#{addProductBB.selectedProduct}" var="p"
+						converter="productConverter" filter="true"
+						filterMatchMode="startsWith" filterNormalize="true"
+						converterMessage="Nie można przekonwertować wybranego produktu.">
+						<f:selectItems value="#{addProductBB.allProducts}" var="product"
+							itemLabel="#{product.productName}" itemValue="#{product}" />
+
+						<p:column style="width:20%">
+							<f:facet name="header">
+								<h:outputText value="Nazwa" />
+							</f:facet>
+							<h:outputText value="#{p.productName}" />
+						</p:column>
+
+						<p:column style="width:5%; text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="kcal" />
+							</f:facet>
+							<h:outputText value="#{p.calories}" />
+						</p:column>
+
+						<f:facet name="footer">
+							<h:outputText
+								value="#{addProductBB.allProducts.size()} produktów"
+								style="font-weight:bold;" styleClass="py-1 block" />
+						</f:facet>
+
+					</p:selectOneMenu>
+					<h:outputLabel for="quantity" value="Ilość: (gram)" />
+					<p:inputText id="quantity" value="#{addProductBB.quantity}" validatorMessage="Musisz podać liczbę większą od 0">
+					<f:validateDoubleRange minimum="1" />
+					</p:inputText>
+
+					<p:commandButton value="Powrót" style="margin-right: 10px;"
+						action="#{addProductBB.dishDetails()}" update="@form"
+						icon="pi pi-arrow-left" immediate="true"/>
+					<p:commandButton value="Dodaj"
+						action="#{addProductBB.addProductToDish()}" icon="pi pi-check"
+						update="@form" />
+				</h:panelGrid>
+				<p:messages display="text" />
+			</h:form>
+		</p:panel>
+
+	</ui:define>
+</ui:composition>
+</html>

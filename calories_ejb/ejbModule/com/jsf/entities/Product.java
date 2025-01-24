@@ -104,5 +104,22 @@ public class Product implements Serializable {
 
 		return dishproduct;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) {
+	        return true;
+	    }
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    Product product = (Product) obj;
+	    return idProduct != null && idProduct.equals(product.getIdProduct());
+	}
+
+	@Override
+	public int hashCode() {
+	    return idProduct != null ? idProduct.hashCode() : 0;
+	}
 
 }

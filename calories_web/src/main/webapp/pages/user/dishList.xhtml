@@ -36,17 +36,17 @@
 						<div class="dish-item">
 							<div class="dish-item-content">
 								<div>
-									<h4 class="mb-1">#{d.dishName}</h4>
-									<h6 class="mt-0 mb-3">
-										<h:outputText value="#{d.totalCalories}">
+									<h2 class="mb-1">#{d.dishName}</h2>
+									<h4 class="mt-0 mb-3">
+										<h:outputText value="Kalorie: #{d.totalCalories} kcal">
 										</h:outputText>
-									</h6>
+									</h4>
 									<div class="mt-5">
 										<p:commandButton icon="pi pi-search" style="margin-right: 10px;"
 											action="#{dishListBB.showDishDetails(d)}" styleClass="rounded-button mr-2"/>
 										<p:commandButton icon="pi pi-trash"
 											action="#{dishListBB.deleteDish(d)}" update="@form"
-											styleClass="ui-button-danger rounded-button" />
+											styleClass="ui-button-danger rounded-button"/>
 									</div>
 								</div>
 							</div>

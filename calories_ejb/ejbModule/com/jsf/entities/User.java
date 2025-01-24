@@ -51,7 +51,7 @@ public class User implements Serializable {
 	private List<User> users;
 
 	//bi-directional many-to-one association to Userrole
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch= FetchType.EAGER)
 	private List<Userrole> userroles;
 
 	public User() {

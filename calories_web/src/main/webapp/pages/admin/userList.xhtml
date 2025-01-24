@@ -8,74 +8,93 @@
 
 <ui:composition template="/templates/main-template.xhtml">
 
-<ui:define name="title">Lista uzytkowników</ui:define>
-<ui:define name="content">
-<h:body styleClass="user-list-body">
+	<ui:define name="title">Lista uzytkowników</ui:define>
+	<ui:define name="content">
+		<h:body styleClass="user-list-body">
 
-	<p:panel header="Opcje wyszukiwania" toggleable="true" collapsed="true"
-		style="margin-bottom: 1em;">
-		<h:form>
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Login:" />
-				<p:inputText value="#{userListBB.login}" />
-				<p:commandButton value="Szukaj" update="form" />
-			</h:panelGrid>
-		</h:form>
-	</p:panel>
+			<p:panel header="Opcje wyszukiwania" toggleable="true"
+				collapsed="true" style="margin-bottom: 1em;">
+				<h:form>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel value="Login:" />
+						<p:inputText value="#{userListBB.login}" />
+						<p:commandButton value="Szukaj" update="form" />
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
 
-	<h:form id="form">
-		<p:growl>
-			<p:autoUpdate />
-		</p:growl>
-		<p:dataTable id="users" var="u" value="#{userListBB.list}">
-			<f:facet name="header">
-				<div class="flex justify-content-between align-items-center">
+			<h:form id="form">
+				<p:growl>
+					<p:autoUpdate />
+				</p:growl>
+				<p:dataTable id="users" var="u" value="#{userListBB.list}">
+					<f:facet name="header">
+						<div class="flex justify-content-between align-items-center">
 
-					<div>
-						<p:commandButton id="toggler" type="button" value="Columns"
-							icon="pi pi-align-justify" />
-						<p:columnToggler datasource="users" trigger="toggler">
-							<p:ajax event="toggle" />
-						</p:columnToggler>
-					</div>
-				</div>
-			</f:facet>
+							<div>
+								<p:commandButton id="toggler" type="button" value="Columns"
+									icon="pi pi-align-justify" />
+								<p:columnToggler datasource="users" trigger="toggler">
+									<p:ajax event="toggle" />
+								</p:columnToggler>
+							</div>
+						</div>
+					</f:facet>
 
-			<p:column ariaHeaderText="Login">
-				<f:facet name="header">
-					<h:outputText value="Login" title="Login" />
-				</f:facet>
-				<h:outputText value="#{u.login}" />
-			</p:column>
+					<p:column ariaHeaderText="Login">
+						<f:facet name="header">
+							<h:outputText value="Login" title="Login" />
+						</f:facet>
+						<h:outputText value="#{u.login}" />
+					</p:column>
 
-			<p:column headerText="Nazwa uzytkownika">
-				<h:outputText value="#{u.userName}" />
-			</p:column>
+					<p:column headerText="Nazwa uzytkownika">
+						<h:outputText value="#{u.userName}" />
+					</p:column>
 
-			<p:column headerText="Data utworzenia">
-				<h:outputText value="#{u.creationDate}" />
-			</p:column>
+					<p:column headerText="Data utworzenia">
+						<h:outputText value="#{u.creationDate}" />
+					</p:column>
 
-			<p:column headerText="Edytowany przez" visible="false">
-				<h:outputText
-					value="#{u.user != null ? u.user.userName : 'Not Edited'}" />
-			</p:column>
+					<p:column headerText="Rola">
+						<h:outputText
+							value="#{u.userroles.isEmpty() ? 'Brak roli' : u.userroles[0].role.roleName}" />
+					</p:column>
 
-			<p:column headerText="Data edycji" visible="false">
-				<h:outputText value="#{u.editDate}" />
-			</p:column>
+					<p:column headerText="Czy aktywny">
+						<h:outputText
+							value="#{u.isActive == 1 ? 'Aktywny' : 'Nieaktywny'}" />
+					</p:column>
 
-			<p:column exportable="false" ariaHeaderText="Actions">
-				<p:button icon="pi pi-pencil" style="margin-right: 10px;"
-					outcome="userEdit"
-					styleClass="edit-button rounded-button ui-button-flat ui-button-success">
-					<f:param name="u" value="#{u.idUser}" />
-				</p:button>
-			</p:column>
-		</p:dataTable>
-	</h:form>
+					<p:column headerText="Edytowany przez" visible="false">
+						<h:outputText
+							value="#{u.user != null ? u.user.userName : 'Not Edited'}" />
+					</p:column>
 
-</h:body>
-</ui:define>
+					<p:column headerText="Data edycji" visible="false">
+						<h:outputText value="#{u.editDate}" />
+					</p:column>
+
+					<p:column headerText="Data dezaktywacji" visible="false">
+						<h:outputText value="#{u.deactivateDate}" />
+					</p:column>
+
+					<p:column exportable="false" ariaHeaderText="Actions">
+						<p:commandButton icon="pi pi-pencil" style="margin-right: 10px;"
+							action="#{userListBB.editUser(u)}"
+							styleClass="edit-button rounded-button ui-button-flat ui-button-success">
+						</p:commandButton>
+						<p:commandButton
+							icon="#{u.isActive == 1 ? 'pi pi-check-circle' : 'pi pi-circle'}"
+							style="margin-right: 10px;"
+							action="#{userListBB.toggleUserStatus(u)}" update="users"
+							styleClass="edit-button rounded-button ui-button-flat ui-button-success">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+		</h:body>
+	</ui:define>
 </ui:composition>
 </html>
