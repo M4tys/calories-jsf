@@ -54,7 +54,11 @@
 						<p:column headerText="Usuń produkt">
 							<p:commandButton icon="pi pi-times"
 								class="ui-button-danger ui-button-flat rounded-button"
-								action="#{dishDetailsBB.removeProduct(dp)}" update="@form"/>
+								action="#{dishDetailsBB.removeProduct(dp)}" update="@form">
+								<p:confirm type="popup" header="Confirmation"
+									message="Czy na pewno chcesz usunąć ten produkt?"
+									icon="pi pi-info-circle" />
+							</p:commandButton>
 						</p:column>
 					</p:dataTable>
 					<p:growl id="msgs" />
@@ -66,6 +70,12 @@
 							action="#{dishDetailsBB.addProduct(dishDetailsBB.dish)}" />
 					</div>
 				</p:panel>
+				<p:confirmPopup global="true">
+					<p:commandButton value="Nie" type="button"
+						styleClass="ui-confirm-popup-no ui-button-flat" />
+					<p:commandButton value="Tak" type="button"
+						styleClass="ui-confirm-popup-yes" />
+				</p:confirmPopup>
 			</h:form>
 		</h:body>
 	</ui:define>

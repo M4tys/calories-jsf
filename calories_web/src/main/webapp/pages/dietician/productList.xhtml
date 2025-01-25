@@ -64,11 +64,20 @@
 								class="ui-button-danger ui-button-flat rounded-button"
 								icon="pi pi-times" action="#{productListBB.deleteProduct(p)}"
 								update="@form">
+								<p:confirm type="popup" header="Confirmation"
+									message="Czy na pewno chcesz usunąć ten produkt?"
+									icon="pi pi-info-circle" />
 							</p:commandButton>
 						</p:column>
 
 					</p:dataTable>
 				</div>
+				<p:confirmPopup global="true">
+					<p:commandButton value="Nie" type="button"
+						styleClass="ui-confirm-popup-no ui-button-flat" />
+					<p:commandButton value="Tak" type="button"
+						styleClass="ui-confirm-popup-yes" />
+				</p:confirmPopup>
 			</h:form>
 		</h:body>
 	</ui:define>

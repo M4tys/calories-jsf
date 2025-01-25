@@ -42,17 +42,29 @@
 										</h:outputText>
 									</h4>
 									<div class="mt-5">
-										<p:commandButton icon="pi pi-search" style="margin-right: 10px;"
-											action="#{dishListBB.showDishDetails(d)}" styleClass="rounded-button mr-2"/>
+										<p:commandButton icon="pi pi-search"
+											style="margin-right: 10px;"
+											action="#{dishListBB.showDishDetails(d)}"
+											styleClass="rounded-button mr-2" />
 										<p:commandButton icon="pi pi-trash"
 											action="#{dishListBB.deleteDish(d)}" update="@form"
-											styleClass="ui-button-danger rounded-button"/>
+											styleClass="ui-button-danger rounded-button">
+											<p:confirm type="popup" header="Confirmation"
+												message="Czy na pewno chcesz usunąć to danie?"
+												icon="pi pi-info-circle" />
+										</p:commandButton>
 									</div>
 								</div>
 							</div>
 						</div>
 					</p:carousel>
 				</div>
+				<p:confirmPopup global="true">
+					<p:commandButton value="Nie" type="button"
+						styleClass="ui-confirm-popup-no ui-button-flat" />
+					<p:commandButton value="Tak" type="button"
+						styleClass="ui-confirm-popup-yes" />
+				</p:confirmPopup>
 			</h:form>
 		</h:body>
 	</ui:define>
