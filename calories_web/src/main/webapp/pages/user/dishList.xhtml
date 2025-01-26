@@ -11,9 +11,10 @@
 	<ui:define name="title">Lista dań</ui:define>
 	<ui:define name="content">
 		<h:body styleClass="dish-carousel-body">
-			<p:panel header="Dodaj danie" toggleable="true"
-				style="margin-bottom: 1em;">
+			<p:panel header="Dodaj danie" toggleable="true" collapsed="true"
+				style="margin-bottom: 1em; max-width: 350px; margin: 0 auto;">
 				<h:form id="add_dish">
+					<p:messages id="msgs" />
 					<h:panelGrid columns="3" cellpadding="5">
 						<h:outputLabel for="name" value="Nazwa:" />
 						<p:inputText id="name" value="#{dishListBB.dishName}"
@@ -22,16 +23,19 @@
 						</p:inputText>
 						<p:message for="name" display="icon" />
 					</h:panelGrid>
-					<p:commandButton value="Dodaj danie" icon="pi pi-plus"
-						styleClass="ui-button-success" action="#{dishListBB.addDish()}"
-						update="form add_dish" />
-					<p:messages id="msgs" />
+					<h:panelGroup layout="block"
+						style="text-align: center; margin-top: 20px;">
+						<p:commandButton value="Dodaj danie" icon="pi pi-plus"
+							styleClass="ui-button-success" action="#{dishListBB.addDish()}"
+							update="form add_dish" />
+					</h:panelGroup>
 				</h:form>
 			</p:panel>
 
 			<h:form id="form">
-				<div class="card">
-					<p:carousel value="#{dishListBB.userDishes}" var="d" numVisible="3"
+				<div class="card" style="padding-top: 150px;">
+					<p:carousel value="#{dishListBB.userDishes}" var="d" numVisible="3" rendered="#{not empty dishListBB.userDishes}"
+						style="width: 80%; margin: 0 auto;"
 						numScroll="3">
 						<div class="dish-item">
 							<div class="dish-item-content">

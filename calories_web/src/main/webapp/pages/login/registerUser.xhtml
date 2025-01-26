@@ -30,7 +30,12 @@
 
 				<h:outputLabel for="password" value="Hasło:" />
 				<p:password id="password" value="#{registerUserBB.password}"
-					required="true" requiredMessage="Hasło jest wymagane." />
+					required="true" requiredMessage="Hasło jest wymagane."
+					validatorMessage="Hasło musi mieć co najmniej 8 znaków, jedną wielką literę i jedną cyfrę.">
+				<f:validateLength minimum="8" />
+				<f:validateRegex pattern=".*[A-Z].*" />
+				<f:validateRegex pattern=".*\\d.*" />
+				</p:password>
 				<p:message for="password" display="icon" />
 
 				<h:outputLabel for="confirmPassword" value="Powtórz hasło:" />
@@ -48,7 +53,6 @@
 					<f:selectItem itemLabel="Dietetyk" itemValue="DIETICIAN" />
 				</p:selectOneMenu>
 				<p:message for="role" display="icon" />
-
 			</h:panelGrid>
 
 			<div style="text-align: center; margin-top: 1em;">

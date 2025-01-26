@@ -18,7 +18,7 @@
 		<h:body styleClass="dish-details-body">
 			<h:form rendered="#{dishDetailsBB.dish != null}">
 				<!-- Panel ze szczegółami dania -->
-				<p:panel header="Szczegóły dania" styleClass="centered-panel">
+				<p:panel header="Szczegóły dania" styleClass="dish-details-panel">
 					<h:panelGrid columns="2" cellpadding="5" style="text-align: left;">
 						<h:outputLabel for="dish-name" value="Nazwa dania:" />
 						<h:outputText value="#{dishDetailsBB.dish.dishName}" />

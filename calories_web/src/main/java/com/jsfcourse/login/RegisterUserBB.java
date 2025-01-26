@@ -75,6 +75,11 @@ public class RegisterUserBB {
 			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne hasło", null));
 			return null;
 		}
+		
+	    if (userDAO.findByLogin(login) != null) {
+	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login jest już zajęty.", null));
+	        return null;
+	    }
 
 		try {
 			User user = new User();
@@ -90,7 +95,7 @@ public class RegisterUserBB {
 			Userrole userrole = new Userrole();
 			userrole.setUser(user);
 			userrole.setRole(selectedRole);
-			userRoleDAO.create(userrole);
+			userRoleDAO.insert(userrole);
 
 			return "/pages/login/login?faces-redirect=true";
 		} catch (Exception e) {

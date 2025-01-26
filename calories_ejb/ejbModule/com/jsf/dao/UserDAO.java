@@ -47,47 +47,59 @@ public class UserDAO {
 		return list;
 	}
 
-	public List<User> getList(Map<String, Object> searchParams) {
-		List<User> list = null;
+	public List<User> getPagedList(int offset, int pageSize, Map<String, Object> searchParams) {
+        List<User> list = null;
 
-		// 1. Build query string with parameters
-		String select = "select u ";
-		String from = "FROM User u JOIN u.userroles ur JOIN ur.role r ";
-		String where = "WHERE ur.removeDate IS NULL ";
-		String orderby = "order by u.login asc, u.login";
+        String select = "SELECT u ";
+        String from = "FROM User u JOIN u.userroles ur JOIN ur.role r ";
+        String where = "WHERE ur.removeDate IS NULL ";
+        String orderby = "ORDER BY u.login ASC";
 
-		// search for surname
-		String login = (String) searchParams.get("login");
-		if (login != null) {
-			if (where.isEmpty()) {
-				where = "where ";
-			} else {
-				where += "and ";
-			}
-			where += "u.login like :login ";
-		}
+        if (searchParams.containsKey("login")) {
+            where += "AND u.login LIKE :login ";
+        }
 
-		// ... other parameters ...
+        Query query = em.createQuery(select + from + where + orderby);
+        query.setFirstResult(offset);
+        query.setMaxResults(pageSize);
 
-		// 2. Create query object
-		Query query = em.createQuery(select + from + where + orderby);
+        if (searchParams.containsKey("login")) {
+            query.setParameter("login", searchParams.get("login") + "%");
+        }
 
-		// 3. Set configured parameters
-		if (login != null) {
-			query.setParameter("login", login + "%");
-		}
+        try {
+            list = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		// ... other parameters ...
+        return list;
+    }
 
-		// 4. Execute query and retrieve list of Person objects
-		try {
-			list = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    // Metoda do zliczania rekordów
+    public int countUsers(Map<String, Object> searchParams) {
+        String select = "SELECT COUNT(u) ";
+        String from = "FROM User u JOIN u.userroles ur JOIN ur.role r ";
+        String where = "WHERE ur.removeDate IS NULL ";
 
-		return list;
-	}
+        if (searchParams.containsKey("login")) {
+            where += "AND u.login LIKE :login ";
+        }
+
+        Query query = em.createQuery(select + from + where);
+
+        if (searchParams.containsKey("login")) {
+            query.setParameter("login", searchParams.get("login") + "%");
+        }
+
+        try {
+            Long count = (Long) query.getSingleResult();
+            return count.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
 	public User getUserFromDatabase(String login, String pass) {
 
@@ -125,5 +137,14 @@ public class UserDAO {
 
 		return roles;
 	}
-
+	
+	public User findByLogin(String login) {
+	    try {
+	        Query query = em.createQuery("SELECT u FROM User u WHERE u.login = :login");
+	        query.setParameter("login", login);
+	        return (User) query.getSingleResult();
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
 }

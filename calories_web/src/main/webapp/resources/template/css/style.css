@@ -20,6 +20,17 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
 }
 
+.dish-details-panel {
+    max-width: 25%; /* Szerokość panelu (do 50% ekranu) */
+    max-width: 450px;
+    margin: 0 auto; /* Wyśrodkowanie poziome */
+    padding: 20px; /* Dodanie odstępu wewnętrznego */
+    background-color: #fff; /* Tło panelu */
+    border: 1px solid #ccc; /* Obramowanie */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Delikatny cień */
+}
+
 .login-panel {
     max-width: 40%; /* Szerokość panelu (do 50% ekranu) */
     max-width: 450px;
@@ -137,7 +148,6 @@
     align-items: center;
 }
 
-
     .dish-item .dish-item-content {
         border: 1px solid var(--surface-d);
         border-radius: 3px;
@@ -150,7 +160,5 @@
         width: 50%;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
     }
-
-
 
 

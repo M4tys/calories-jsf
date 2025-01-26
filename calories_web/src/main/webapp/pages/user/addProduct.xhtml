@@ -50,9 +50,9 @@
 
 					</p:selectOneMenu>
 					<h:outputLabel for="quantity" value="Ilość: (gram)" />
-					<p:inputText id="quantity" value="#{addProductBB.quantity}" validatorMessage="Musisz podać liczbę większą od 0">
+					<p:inputNumber id="quantity" value="#{addProductBB.quantity}" validatorMessage="Musisz podać liczbę większą od 0">
 					<f:validateDoubleRange minimum="1" />
-					</p:inputText>
+					</p:inputNumber>
 
 					<p:commandButton value="Powrót" style="margin-right: 10px;"
 						action="#{addProductBB.dishDetails()}" update="@form"

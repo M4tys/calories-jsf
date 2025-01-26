@@ -8,91 +8,124 @@
 
 <ui:composition template="/templates/main-template.xhtml">
 
-	<ui:define name="title">Lista uzytkowników</ui:define>
+	<ui:define name="title">Lista użytkowników</ui:define>
 	<ui:define name="content">
 		<h:body styleClass="user-list-body">
 
+			<!-- Panel wyszukiwania -->
 			<p:panel header="Opcje wyszukiwania" toggleable="true"
-				collapsed="true" style="margin-bottom: 1em;">
+				style="margin-bottom: 1em; max-width: 350px; margin: 0 auto;">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel value="Login:" />
+						<h:outputLabel value="Nazwa:" />
 						<p:inputText value="#{userListBB.login}" />
-						<p:commandButton value="Szukaj" update="form" />
 					</h:panelGrid>
+					<h:panelGroup layout="block"
+						style="text-align: center; margin-top: 20px;">
+						<p:commandButton value="Szukaj" update="form" />
+					</h:panelGroup>
 				</h:form>
 			</p:panel>
 
-			<h:form id="form">
-				<p:growl>
-					<p:autoUpdate />
-				</p:growl>
-				<p:dataTable id="users" var="u" value="#{userListBB.list}">
-					<f:facet name="header">
-						<div class="flex justify-content-between align-items-center">
+			<p:panel header="Lista użytkowników" toggleable="true"
+				style="margin-top: 3em;">
+				<h:form id="form">
+					<p:growl>
+						<p:autoUpdate />
+					</p:growl>
 
-							<div>
-								<p:commandButton id="toggler" type="button" value="Columns"
-									icon="pi pi-align-justify" />
-								<p:columnToggler datasource="users" trigger="toggler">
-									<p:ajax event="toggle" />
-								</p:columnToggler>
-							</div>
-						</div>
-					</f:facet>
+					<!-- Tabela użytkowników -->
+					<p:dataTable id="users" var="u" value="#{userListBB.lazyModel}"
+						paginator="true" rows="5" paginatorPosition="bottom"
+						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+						lazy="true" showGridlines="true" selectionMode="single"
+						selection="#{userListBB.selectedUser}" rowKey="#{u.idUser}">>
 
-					<p:column ariaHeaderText="Login">
-						<f:facet name="header">
-							<h:outputText value="Login" title="Login" />
-						</f:facet>
-						<h:outputText value="#{u.login}" />
-					</p:column>
 
-					<p:column headerText="Nazwa uzytkownika">
-						<h:outputText value="#{u.userName}" />
-					</p:column>
+						<!-- Kolumna z loginem -->
+						<p:column headerText="Login">
+							<h:outputText value="#{u.login}" />
+						</p:column>
 
-					<p:column headerText="Data utworzenia">
-						<h:outputText value="#{u.creationDate}" />
-					</p:column>
+						<!-- Kolumna z nazwą użytkownika -->
+						<p:column headerText="Nazwa użytkownika">
+							<h:outputText value="#{u.userName}" />
+						</p:column>
 
-					<p:column headerText="Rola">
-						<h:outputText
-							value="#{u.userroles.isEmpty() ? 'Brak roli' : u.userroles[0].role.roleName}" />
-					</p:column>
+						<!-- Kolumna z rolą -->
+						<p:column headerText="Rola">
+							<h:outputText value="#{userListBB.getRolesAsString(u)}" />
+						</p:column>
 
-					<p:column headerText="Czy aktywny">
-						<h:outputText
-							value="#{u.isActive == 1 ? 'Aktywny' : 'Nieaktywny'}" />
-					</p:column>
+						<p:column headerText="Czy aktywny">
+							<h:outputText
+								value="#{u.isActive == 1 ? 'Aktywny' : 'Nieaktywny'}" />
+						</p:column>
 
-					<p:column headerText="Edytowany przez" visible="false">
-						<h:outputText
-							value="#{u.user != null ? u.user.userName : 'Not Edited'}" />
-					</p:column>
+						<!-- Kolumna z przyciskami akcji -->
+						<p:column headerText="Akcje" exportable="false"
+							style="width: 150px;">
+							<h:panelGroup style="display: flex; gap: 5px;">
+								<!-- Przycisk Edytuj -->
+								<p:commandButton icon="pi pi-pencil" title="Edytuj"
+									action="#{userListBB.editUser(u)}"
+									styleClass="edit-button rounded-button ui-button-flat ui-button-success" />
 
-					<p:column headerText="Data edycji" visible="false">
-						<h:outputText value="#{u.editDate}" />
-					</p:column>
+								<!-- Przycisk Dezaktywuj/Aktywuj -->
+								<p:commandButton
+									icon="#{u.isActive == 1 ? 'pi pi-ban' : 'pi pi-check'}"
+									title="#{u.isActive == 1 ? 'Dezaktywuj' : 'Aktywuj'}"
+									action="#{userListBB.toggleUserStatus(u)}" update=":form:users"
+									styleClass="edit-button rounded-button ui-button-flat ui-button-warning" />
+							</h:panelGroup>
+						</p:column>
 
-					<p:column headerText="Data dezaktywacji" visible="false">
-						<h:outputText value="#{u.deactivateDate}" />
-					</p:column>
+						<!-- Obsługa zdarzenia wyboru wiersza -->
+						<p:ajax event="rowSelect" listener="#{userListBB.onRowSelect}"
+							update=":form:userDetail" oncomplete="PF('userDialog').show()" />
+					</p:dataTable>
 
-					<p:column exportable="false" ariaHeaderText="Actions">
-						<p:commandButton icon="pi pi-pencil" style="margin-right: 10px;"
-							action="#{userListBB.editUser(u)}"
-							styleClass="edit-button rounded-button ui-button-flat ui-button-success">
-						</p:commandButton>
-						<p:commandButton
-							icon="#{u.isActive == 1 ? 'pi pi-check-circle' : 'pi pi-circle'}"
-							style="margin-right: 10px;"
-							action="#{userListBB.toggleUserStatus(u)}" update="users"
-							styleClass="edit-button rounded-button ui-button-flat ui-button-success">
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
-			</h:form>
+					<!-- Okno dialogowe ze szczegółami użytkownika -->
+					<p:dialog header="Szczegóły użytkownika" widgetVar="userDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+						width="600">
+						<p:outputPanel id="userDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty userListBB.selectedUser}"
+								columnClasses="label,value">
+								<h:outputText value="Login:" />
+								<h:outputText value="#{userListBB.selectedUser.login}" />
+
+								<h:outputText value="Nazwa użytkownika:" />
+								<h:outputText value="#{userListBB.selectedUser.userName}" />
+
+								<h:outputText value="Rola:" />
+								<h:outputText
+									value="#{userListBB.getRolesAsString(userListBB.selectedUser)}" />
+
+								<h:outputText value="Data utworzenia:" />
+								<h:outputText value="#{userListBB.selectedUser.creationDate}" />
+
+								<h:outputText value="Czy aktywny:" />
+								<h:outputText
+									value="#{userListBB.selectedUser.isActive == 1 ? 'Aktywny' : 'Nieaktywny'}" />
+
+								<h:outputText value="Data dezaktywacji:" />
+								<h:outputText
+									value="#{userListBB.selectedUser.deactivateDate != null ? userListBB.selectedUser.deactivateDate : '---'}" />
+
+								<h:outputText value="Edytowany przez:" />
+								<h:outputText
+									value="#{userListBB.selectedUser.user != null ? userListBB.selectedUser.user.userName : '---'}" />
+
+								<h:outputText value="Data edycji:" />
+								<h:outputText
+									value="#{userListBB.selectedUser.editDate != null ? userListBB.selectedUser.editDate : '---'}" />
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+				</h:form>
+			</p:panel>
 
 		</h:body>
 	</ui:define>

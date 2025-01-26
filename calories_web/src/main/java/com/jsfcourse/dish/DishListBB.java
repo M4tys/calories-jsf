@@ -6,7 +6,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
@@ -28,8 +27,8 @@ public class DishListBB {
 	@Inject
 	private ExternalContext extContext;
 
-	@EJB
-	private DishDAO dishDAO;
+	@Inject
+	DishDAO dishDAO;
 
 	@Inject
 	Flash flash;
@@ -66,7 +65,6 @@ public class DishListBB {
 
 	public String deleteDish(Dish dish) {
 		dishDAO.delete(dish);
-		userDishes = null;
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
@@ -93,9 +91,7 @@ public class DishListBB {
 						Dish newDish = new Dish();
 						newDish.setDishName(dishName);
 						newDish.setUser(loggedInUser);
-						newDish.setTotalCalories(0);
 						dishDAO.insert(newDish);
-						userDishes = null;
 					} catch (Exception e) {
 						e.printStackTrace();
 						context.addMessage(null,

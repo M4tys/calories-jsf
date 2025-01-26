@@ -13,72 +13,79 @@
 		<h:body styleClass="product-list-body">
 
 			<p:panel header="Opcje wyszukiwania" toggleable="true"
-				style="margin-bottom: 1em;">
+				style="margin-bottom: 1em; max-width: 350px; margin: 0 auto;">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel value="Nazwa:" />
 						<p:inputText value="#{productListBB.productName}" />
-						<p:commandButton value="Szukaj" update="form" />
 					</h:panelGrid>
+					<h:panelGroup layout="block"
+						style="text-align: center; margin-top: 20px;">
+						<p:commandButton value="Szukaj" update="form" />
+					</h:panelGroup>
 				</h:form>
 			</p:panel>
 
-			<p:messages />
+			<p:panel header="Lista produktów" style="margin-top: 1em;">
+				<h:form id="form">
+					<h:panelGroup layout="block" style="text-align: center;">
+						<p:commandButton value="Dodaj nowy produkt" icon="pi pi-plus"
+							action="#{productListBB.newProduct()}" style="margin-bottom:1em;" />
+					</h:panelGroup>
 
-			<h:form id="form">
-				<p:commandButton value="Dodaj nowy produkt" icon="pi pi-plus"
-					action="#{productListBB.newProduct()}" style="margin-bottom:1em;" />
+					<div class="card">
+						<p:dataTable id="productDT" var="p"
+							value="#{productListBB.lazyModel}" paginator="true" rows="5"
+							paginatorPosition="bottom"
+							paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+							lazy="true" showGridlines="true">
+							<p:column headerText="Nazwa">
+								<h:outputText value="#{p.productName}" />
+							</p:column>
 
-				<div class="card">
-					<p:dataTable id="productDT" var="p"
-						value="#{productListBB.lazyModel}" paginator="true" rows="5"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-						lazy="true" showGridlines="true">
-						<p:column headerText="Nazwa">
-							<h:outputText value="#{p.productName}" />
-						</p:column>
+							<p:column headerText="Kalorie">
+								<h:outputText value="#{p.calories}" />
+							</p:column>
 
-						<p:column headerText="Kalorie">
-							<h:outputText value="#{p.calories}" />
-						</p:column>
+							<p:column headerText="Węglowodany">
+								<h:outputText value="#{p.carbohydrates}" />
+							</p:column>
 
-						<p:column headerText="Węglowodany">
-							<h:outputText value="#{p.carbohydrates}" />
-						</p:column>
+							<p:column headerText="Bałko">
+								<h:outputText value="#{p.proteins}" />
+							</p:column>
 
-						<p:column headerText="Bałko">
-							<h:outputText value="#{p.proteins}" />
-						</p:column>
+							<p:column headerText="Tłuszcze">
+								<h:outputText value="#{p.fats}" />
+							</p:column>
 
-						<p:column headerText="Tłuszcze">
-							<h:outputText value="#{p.fats}" />
-						</p:column>
+							<p:column exportable="false" ariaHeaderText="Actions">
+								<p:commandButton icon="pi pi-pencil" style="margin-right: 10px;"
+									action="#{productListBB.editProduct(p)}"
+									styleClass="edit-button rounded-button ui-button-flat ui-button-success"
+									update="@form">
+								</p:commandButton>
+								<p:commandButton
+									class="ui-button-danger ui-button-flat rounded-button"
+									icon="pi pi-times" action="#{productListBB.deleteProduct(p)}"
+									update="@form">
+									<p:confirm type="popup" header="Confirmation"
+										message="Czy na pewno chcesz usunąć ten produkt?"
+										icon="pi pi-info-circle" />
+								</p:commandButton>
+							</p:column>
 
-						<p:column exportable="false" ariaHeaderText="Actions">
-							<p:commandButton icon="pi pi-pencil" style="margin-right: 10px;"
-								action="#{productListBB.editProduct(p)}"
-								styleClass="edit-button rounded-button ui-button-flat ui-button-success"
-								update="@form">
-							</p:commandButton>
-							<p:commandButton
-								class="ui-button-danger ui-button-flat rounded-button"
-								icon="pi pi-times" action="#{productListBB.deleteProduct(p)}"
-								update="@form">
-								<p:confirm type="popup" header="Confirmation"
-									message="Czy na pewno chcesz usunąć ten produkt?"
-									icon="pi pi-info-circle" />
-							</p:commandButton>
-						</p:column>
-
-					</p:dataTable>
-				</div>
-				<p:confirmPopup global="true">
-					<p:commandButton value="Nie" type="button"
-						styleClass="ui-confirm-popup-no ui-button-flat" />
-					<p:commandButton value="Tak" type="button"
-						styleClass="ui-confirm-popup-yes" />
-				</p:confirmPopup>
-			</h:form>
+						</p:dataTable>
+					</div>
+					<p:growl id="msgs" />
+					<p:confirmPopup global="true">
+						<p:commandButton value="Nie" type="button"
+							styleClass="ui-confirm-popup-no ui-button-flat" />
+						<p:commandButton value="Tak" type="button"
+							styleClass="ui-confirm-popup-yes" />
+					</p:confirmPopup>
+				</h:form>
+			</p:panel>
 		</h:body>
 	</ui:define>
 </ui:composition>
